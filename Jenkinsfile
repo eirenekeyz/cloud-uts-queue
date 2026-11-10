@@ -26,6 +26,8 @@ pipeline {
         stage('4. Automated Deployment') {
             steps {
                 echo 'Deploying containers...'
+                // Hentikan kontainer lama terlebih dahulu agar tidak bentrok nama
+                sh 'docker-compose down || docker compose down'
                 sh 'docker-compose up -d || docker compose up -d'
             }
         }
