@@ -19,14 +19,14 @@ pipeline {
         stage('3. Build Image') {
             steps {
                 echo 'Building Docker Images via Compose...'
-                sh 'docker compose build'
+                sh 'docker-compose build || docker compose build'
             }
         }
 
         stage('4. Automated Deployment') {
             steps {
                 echo 'Deploying containers...'
-                sh 'docker compose up -d'
+                sh 'docker-compose up -d || docker compose up -d'
             }
         }
 
