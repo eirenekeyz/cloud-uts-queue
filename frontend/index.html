@@ -1,0 +1,552 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Display System Antrean Layanan Mahasiswa (LAA)</title>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg-body: #f8fafc;
+            --card-bg: #ffffff;
+            --text-main: #0f172a;
+            --text-muted: #64748b;
+            --border: #e2e8f0;
+            
+            --loket-a: #c41e3a; /* Red */
+            --loket-b: #059669; /* Green */
+            --loket-c: #4f46e5; /* Blue */
+            --loket-d: #d97706; /* Amber */
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Plus Jakarta Sans', sans-serif;
+        }
+
+        body {
+            background-color: var(--bg-body);
+            color: var(--text-main);
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .dashboard-container {
+            max-width: 1240px;
+            margin: 0 auto;
+            background: #fff;
+            border-radius: 16px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.08);
+            overflow: hidden;
+            border: 1px solid var(--border);
+        }
+
+        .top-header {
+            background: #0f172a;
+            color: white;
+            padding: 16px 28px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 4px solid var(--loket-a);
+        }
+
+        .brand-section {
+            display: flex;
+            align-items: center;
+            gap: 14px;
+        }
+
+        .brand-logo {
+            background: var(--loket-a);
+            color: white;
+            font-weight: 800;
+            font-size: 20px;
+            padding: 8px 14px;
+            border-radius: 10px;
+        }
+
+        .brand-title h1 {
+            font-size: 20px;
+            font-weight: 800;
+            letter-spacing: 0.5px;
+        }
+
+        .brand-title p {
+            font-size: 13px;
+            color: #94a3b8;
+            font-weight: 500;
+        }
+
+        .clock-section { text-align: right; }
+
+        .digital-clock {
+            font-size: 26px;
+            font-weight: 800;
+            letter-spacing: 1px;
+            color: #38bdf8;
+            font-variant-numeric: tabular-nums;
+        }
+
+        .digital-date {
+            font-size: 12px;
+            font-weight: 600;
+            color: #94a3b8;
+            text-transform: uppercase;
+        }
+
+        .main-content {
+            display: grid;
+            grid-template-columns: 290px 1fr;
+            gap: 20px;
+            padding: 20px;
+            background: #f1f5f9;
+        }
+
+        @media (max-width: 900px) {
+            .main-content { grid-template-columns: 1fr; }
+        }
+
+        .info-panel {
+            background: #ffffff;
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            padding: 18px;
+            display: flex;
+            flex-direction: column;
+            gap: 14px;
+        }
+
+        .info-title {
+            font-size: 13px;
+            font-weight: 800;
+            color: #0f172a;
+            border-bottom: 2px solid var(--border);
+            padding-bottom: 6px;
+            text-transform: uppercase;
+        }
+
+        .ktm-alert {
+            background: #fff1f2;
+            border: 1px solid #fecdd3;
+            border-left: 4px solid var(--loket-a);
+            border-radius: 8px;
+            padding: 12px;
+        }
+
+        .ktm-alert h3 {
+            font-size: 12px;
+            font-weight: 800;
+            color: var(--loket-a);
+            margin-bottom: 4px;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .ktm-alert p {
+            font-size: 12px;
+            color: #475569;
+            line-height: 1.4;
+            font-weight: 500;
+        }
+
+        .loket-legend {
+            padding: 8px 12px;
+            border-radius: 8px;
+            font-size: 12px;
+            font-weight: 600;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .loket-legend.a { background: #fee2e2; color: var(--loket-a); border-left: 4px solid var(--loket-a); }
+        .loket-legend.b { background: #d1fae5; color: var(--loket-b); border-left: 4px solid var(--loket-b); }
+        .loket-legend.c { background: #e0e7ff; color: var(--loket-c); border-left: 4px solid var(--loket-c); }
+        .loket-legend.d { background: #fef3c7; color: var(--loket-d); border-left: 4px solid var(--loket-d); }
+
+        .center-dashboard {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+
+        .display-grid {
+            display: grid;
+            grid-template-columns: 280px 1fr;
+            gap: 20px;
+        }
+
+        @media (max-width: 768px) {
+            .display-grid { grid-template-columns: 1fr; }
+        }
+
+        .big-queue-card {
+            background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%);
+            color: white;
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 6px 16px rgba(0,0,0,0.15);
+            text-align: center;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            transition: all 0.3s ease;
+        }
+
+        .big-queue-header {
+            background: rgba(255,255,255,0.1);
+            padding: 10px;
+            font-size: 12px;
+            font-weight: 800;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+        }
+
+        .big-queue-number {
+            font-size: 56px;
+            font-weight: 800;
+            padding: 16px 10px;
+            line-height: 1;
+            letter-spacing: 2px;
+            color: #38bdf8;
+        }
+
+        .big-queue-footer {
+            background: rgba(0,0,0,0.25);
+            padding: 10px;
+            font-size: 12px;
+            font-weight: 700;
+            text-transform: uppercase;
+        }
+
+        .form-card {
+            background: white;
+            border-radius: 12px;
+            padding: 18px;
+            border: 1px solid var(--border);
+        }
+
+        .form-card h2 {
+            font-size: 15px;
+            font-weight: 700;
+            margin-bottom: 12px;
+        }
+
+        .form-group { margin-bottom: 10px; }
+        .form-group label {
+            display: block;
+            font-size: 11px;
+            font-weight: 700;
+            color: var(--text-muted);
+            margin-bottom: 4px;
+            text-transform: uppercase;
+        }
+
+        .form-control {
+            width: 100%;
+            padding: 9px 11px;
+            font-size: 13px;
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            outline: none;
+            background: #f8fafc;
+        }
+
+        .form-control:focus {
+            border-color: #0f172a;
+            background: #fff;
+        }
+
+        .btn-submit {
+            width: 100%;
+            padding: 10px;
+            font-size: 13px;
+            font-weight: 700;
+            color: white;
+            background: #0f172a;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            text-transform: uppercase;
+            transition: background 0.2s;
+        }
+
+        .btn-submit:hover { background: #1e293b; }
+
+        .table-card {
+            background: white;
+            border-radius: 12px;
+            padding: 18px;
+            border: 1px solid var(--border);
+        }
+
+        .table-card h2 {
+            font-size: 15px;
+            font-weight: 700;
+            margin-bottom: 12px;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            table-layout: fixed;
+        }
+
+        th {
+            background: #f8fafc;
+            color: var(--text-muted);
+            font-weight: 700;
+            font-size: 11px;
+            text-transform: uppercase;
+            padding: 10px 12px;
+            text-align: left;
+            border-bottom: 2px solid var(--border);
+        }
+
+        th.col-no { width: 80px; }
+        th.col-nama { width: 30%; }
+        th.col-layanan { width: 45%; }
+        th.col-aksi { width: 120px; text-align: center; }
+
+        td {
+            padding: 12px;
+            font-size: 13px;
+            border-bottom: 1px solid #f1f5f9;
+            vertical-align: middle;
+            word-wrap: break-word;
+        }
+
+        .badge-num {
+            font-weight: 800;
+            padding: 5px 10px;
+            border-radius: 6px;
+            display: inline-block;
+            font-size: 13px;
+        }
+        .badge-A { background: #fee2e2; color: var(--loket-a); }
+        .badge-B { background: #d1fae5; color: var(--loket-b); }
+        .badge-C { background: #e0e7ff; color: var(--loket-c); }
+        .badge-D { background: #fef3c7; color: var(--loket-d); }
+
+        .service-tag {
+            background: #f1f5f9;
+            color: #334155;
+            font-size: 12px;
+            font-weight: 600;
+            padding: 6px 10px;
+            border-radius: 6px;
+            display: block;
+            line-height: 1.4;
+        }
+
+        .btn-action {
+            background: #f1f5f9;
+            color: #475569;
+            border: 1px solid #cbd5e1;
+            padding: 7px 10px;
+            font-size: 11px;
+            font-weight: 700;
+            border-radius: 6px;
+            cursor: pointer;
+            width: 100%;
+            transition: all 0.2s;
+        }
+
+        .btn-action:hover {
+            background: #ef4444;
+            color: white;
+            border-color: #ef4444;
+        }
+
+        .empty-row { text-align: center; color: var(--text-muted); padding: 24px; font-style: italic; }
+    </style>
+</head>
+<body>
+
+    <div class="dashboard-container">
+        <div class="top-header">
+            <div class="brand-section">
+                <div class="brand-logo">LAA</div>
+                <div class="brand-title">
+                    <h1>Sistem Antrean Multi-Loket</h1>
+                    <p>Layanan Akademik & Administrasi Telkom University</p>
+                </div>
+            </div>
+            <div class="clock-section">
+                <div id="digital-clock" class="digital-clock">00:00:00</div>
+                <div id="digital-date" class="digital-date">SENIN, 1 JANUARI 2026</div>
+            </div>
+        </div>
+
+        <div class="main-content">
+            <!-- Sidebar Informasi & Pengumuman KTM -->
+            <div class="info-panel">
+                <div class="info-title">Penting Harap Dibaca</div>
+                
+                <!-- Kotak Peringatan KTM -->
+                <div class="ktm-alert">
+                    <h3>📌 WAJIB BAWA KTM</h3>
+                    <p>Mahasiswa wajib menunjukkan <strong>Kartu Tanda Mahasiswa (KTM)</strong> asli/digital yang masih berlaku saat dipanggil ke loket.</p>
+                </div>
+
+                <div class="info-title" style="margin-top: 10px;">Daftar Loket Layanan</div>
+                <div class="loket-legend a"><span>LOKET A</span> <span>Legalisir & Surat</span></div>
+                <div class="loket-legend b"><span>LOKET B</span> <span>Beasiswa</span></div>
+                <div class="loket-legend c"><span>LOKET C</span> <span>Konseling</span></div>
+                <div class="loket-legend d"><span>LOKET D</span> <span>Akademik / KRS</span></div>
+            </div>
+
+            <div class="center-dashboard">
+                <div class="display-grid">
+                    <div id="big-card" class="big-queue-card">
+                        <div class="big-queue-header">ANTREAN DIPANGGIL</div>
+                        <div id="big-queue-num" class="big-queue-number">---</div>
+                        <div id="big-queue-status" class="big-queue-footer">MENUNGGU ANTREAN</div>
+                    </div>
+
+                    <div class="form-card">
+                        <h2>Ambil Tiket Antrean</h2>
+                        <form id="queue-form">
+                            <div class="form-group">
+                                <label for="student-name">Nama Mahasiswa / NIM</label>
+                                <input type="text" id="student-name" class="form-control" placeholder="Contoh: Eirene - 11012..." required>
+                            </div>
+                            <div class="form-group">
+                                <label for="service-type">Pilih Jenis Layanan</label>
+                                <select id="service-type" class="form-control">
+                                    <option value="Legalisir Transkrip / Ijazah">Legalisir Transkrip / Ijazah (Loket A)</option>
+                                    <option value="Surat Keterangan Mahasiswa">Surat Keterangan Mahasiswa (Loket A)</option>
+                                    <option value="Pengajuan Beasiswa">Pengajuan Beasiswa (Loket B)</option>
+                                    <option value="Bimbingan Konseling Mahasiswa">Bimbingan Konseling (Loket C)</option>
+                                    <option value="Konsultasi Akademik / KRS">Konsultasi Akademik / KRS (Loket D)</option>
+                                </select>
+                            </div>
+                            <button type="submit" class="btn-submit">Ambil Nomor Antrean</button>
+                        </form>
+                    </div>
+                </div>
+
+                <div class="table-card">
+                    <h2>Daftar Antrean Aktif</h2>
+                    <table>
+                        <thead>
+                            <tr>
+                                <th class="col-no">NO.</th>
+                                <th class="col-nama">MAHASISWA</th>
+                                <th class="col-layanan">LAYANAN & LOKET</th>
+                                <th class="col-aksi">AKSI</th>
+                            </tr>
+                        </thead>
+                        <tbody id="queue-table-body"></tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const API_URL = '/queue';
+
+        const LOKET_COLORS = {
+            'A': 'linear-gradient(135deg, #b71c1c 0%, #c41e3a 100%)',
+            'B': 'linear-gradient(135deg, #047857 0%, #059669 100%)',
+            'C': 'linear-gradient(135deg, #3730a3 0%, #4f46e5 100%)',
+            'D': 'linear-gradient(135deg, #b45309 0%, #d97706 100%)'
+        };
+
+        function updateClock() {
+            const now = new Date();
+            document.getElementById('digital-clock').innerText = now.toLocaleTimeString('id-ID', { hour12: false });
+            document.getElementById('digital-date').innerText = now.toLocaleDateString('id-ID', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' }).toUpperCase();
+        }
+        setInterval(updateClock, 1000);
+        updateClock();
+
+        async function fetchQueue() {
+            try {
+                const res = await fetch(API_URL);
+                const data = await res.json();
+                const tbody = document.getElementById('queue-table-body');
+                const bigCard = document.getElementById('big-card');
+                const bigNum = document.getElementById('big-queue-num');
+                const bigStatus = document.getElementById('big-queue-status');
+                
+                tbody.innerHTML = '';
+                
+                if (!data || data.length === 0) {
+                    tbody.innerHTML = `<tr><td colspan="4" class="empty-row">Belum ada antrean aktif saat ini</td></tr>`;
+                    bigNum.innerText = '---';
+                    bigNum.style.color = '#38bdf8';
+                    bigStatus.innerText = 'MENUNGGU ANTREAN';
+                    bigCard.style.background = 'linear-gradient(135deg, #0f172a 0%, #1e293b 100%)';
+                    return;
+                }
+
+                const current = data[0];
+                const prefix = current.prefix || 'A';
+                const queueNum = current.queue_number || current;
+                const studentName = current.student_name ? current.student_name.split(' ')[0] : 'MAHASISWA';
+                const loketName = current.loket ? current.loket.toUpperCase() : 'LOKET A';
+
+                bigNum.innerText = queueNum;
+                bigNum.style.color = '#ffffff';
+                bigStatus.innerText = `${loketName} (${studentName})`;
+                bigCard.style.background = LOKET_COLORS[prefix] || LOKET_COLORS['A'];
+
+                data.forEach((item, index) => {
+                    const tr = document.createElement('tr');
+                    const pfx = item.prefix || 'A';
+                    const qNo = item.queue_number || item;
+                    const sName = item.student_name || '-';
+                    const sLoket = item.loket || 'Loket A';
+                    const sType = item.service_type || 'Layanan';
+
+                    tr.innerHTML = `
+                        <td><span class="badge-num badge-${pfx}">${qNo}</span></td>
+                        <td><strong>${sName}</strong></td>
+                        <td>
+                            <span class="service-tag">
+                                <strong>${sLoket}</strong> - ${sType}
+                            </span>
+                        </td>
+                        <td>
+                            <button class="btn-action" onclick="processQueue(${index})">
+                                ${index === 0 ? 'Panggil / Selesai' : 'Hapus'}
+                            </button>
+                        </td>
+                    `;
+                    tbody.appendChild(tr);
+                });
+            } catch (err) {
+                console.error("Gagal mengambil data antrean:", err);
+            }
+        }
+
+        document.getElementById('queue-form').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const student_name = document.getElementById('student-name').value;
+            const service_type = document.getElementById('service-type').value;
+
+            await fetch(API_URL, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ student_name, service_type })
+            });
+
+            document.getElementById('student-name').value = '';
+            fetchQueue();
+        });
+
+        async function processQueue(index) {
+            await fetch(`${API_URL}?index=${index}`, { method: 'DELETE' });
+            fetchQueue();
+        }
+
+        fetchQueue();
+    </script>
+</body>
+</html>
